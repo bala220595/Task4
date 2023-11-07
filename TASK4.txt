@@ -1,0 +1,275 @@
+
+1.Four access modifiers available in java?
+
+public: Offers the widest accessibility, making members visible and accessible from anywhere.
+protected: Provides access within the same package and by subclasses, allowing for controlled inheritance and package-level access.
+Default: Limits access to within the same package, providing a form of package-level encapsulation.
+private: Restricts access to only within the same class, offering strong encapsulation and data hiding
+
+2.Difference between Exceptions and errors?
+
+Exceptions:
+
+1. Exceptions are typically caused by problems that can be handled within your code. These problems can be due to factors such as user input, external resources (e.g., files, network), or program logic errors. Exceptions are meant to be caught and handled to allow your program to continue running gracefully.
+
+2.Exceptions are divided into two categories: checked exceptions and unchecked exceptions (also known as runtime exceptions). Checked exceptions must be explicitly caught or declared in the method signature, whereas unchecked exceptions do not have this requirement. Common exceptions like IOException and NullPointerException fall under the exception hierarchy.
+
+3.Exceptions are generally recoverable, meaning that your code can take appropriate actions to address the problem and continue execution. For example, you can catch and handle a FileNotFoundException by displaying an error message to the user or trying to open the file from a different location.
+
+4.Exceptions are meant to be caught and handled using try-catch blocks. You can write code to handle exceptions, log them, and take appropriate actions to recover from the exceptional condition.
+
+Errors:
+
+1.Errors, on the other hand, are usually caused by external factors or issues that are beyond the control of your application. They often indicate severe problems that can't or shouldn't be caught or handled by your code. Errors are typically related to issues in the runtime environment, such as running out of memory or hardware failures.
+
+2.Errors are not meant to be caught or handled by your application code. They are usually instances of the Error class or its subclasses, and trying to catch them is generally discouraged. Common errors include OutOfMemoryError and StackOverflowError.
+Recoverability:
+
+3.Errors are usually not recoverable. When an error occurs, it's often an indication that something serious has gone wrong, and it's best to allow the program to terminate gracefully. Attempting to catch or handle errors might lead to unpredictable behavior.
+
+4.Errors are not typically caught and handled in application code. They are meant to be reported to the system or application administrator for analysis and resolution.
+
+3.Difference between checked exception and unchecked exception?
+
+Checked Exceptions:
+
+1.Checked exceptions are checked at compile time. This means that the Java compiler enforces that you either catch these exceptions using a try-catch block or declare that your method can throw these exceptions using the throws keyword in the method signature. This helps ensure that you handle known exceptional conditions.
+
+2.Checked exceptions must be either caught and handled or explicitly declared in the method's signature. This ensures that developers are aware of and address potential exceptional conditions.
+
+3.Examples of checked exceptions include IOException, FileNotFoundException, and SQLException. These exceptions often involve external resources, such as files and databases, and are meant to be explicitly handled.
+
+4.The requirement to handle checked exceptions promotes explicit error-handling practices, ensuring that developers consider and address potential issues that can occur during program execution.
+
+5.When a method throws a checked exception, it must declare it in its method signature. This allows the caller of the method to either catch and handle the exception or declare that it can propagate the exception further up the call stack.
+
+Unchecked Exceptions (Runtime Exceptions): 
+
+1.Unchecked exceptions are not checked at compile time. The compiler does not require you to catch or declare them. These exceptions extend the RuntimeException class or one of its subclasses, and they are often associated with programming errors or issues that can be avoided with proper coding practices.
+Handling Requirements:
+
+2.Handling unchecked exceptions is not required by the compiler. You can choose to handle them using try-catch blocks, but you are not forced to do so. It is typically recommended to catch and handle unchecked exceptions when doing so can provide meaningful recovery or error reporting.
+
+3.Examples of unchecked exceptions include NullPointerException, ArrayIndexOutOfBoundsException, and ArithmeticException. These exceptions usually result from programming errors, like null references or invalid array indices.
+Forced Handling:
+
+4.Unchecked exceptions are generally used for more predictable and preventable errors. They are often associated with coding errors and are not forced to be caught or declared, but developers are encouraged to handle them when it makes sense.
+Propagating Exceptions:
+
+5.Methods can throw unchecked exceptions without declaring them in their method signatures. These exceptions can propagate up the call stack without any explicit declaration, which can lead to more concise code.
+
+4.CODE:
+
+package org.interfce;
+
+import java.util.Scanner;
+
+public class Divisioncalculator {
+		
+	    public static void main(String[] args) {
+	    	
+	        Scanner sc=new Scanner(System.in);
+
+	        System.out.print("Enter the first integer: ");
+	        int numerator = sc.nextInt();
+
+	        System.out.print("Enter the second integer: ");
+	        int denominator = sc.nextInt();
+
+	        if (denominator == 0) {
+	            System.out.println("Error: Division by zero is not allowed.");
+	        } else {
+	            // Perform the division
+	            double result = (double) numerator / denominator;
+
+	            // Display the result
+	            System.out.println("Result of division: " + result);
+	        }
+
+	        // Close the scanner
+	        sc.close();
+	    }
+	}
+OUTPUT:
+
+Enter the first integer: 2
+Enter the second integer: 0
+Error: Division by zero is not allowed.
+
+5.CODE:
+
+package org.exceptionconcept;
+
+public class Exception {
+	
+public static void main(String[] args) {
+		
+		try {
+			//risky code
+			String s="TASK";
+			char c=s.charAt(6);
+			System.out.println(c);
+
+		} catch (StringIndexOutOfBoundsException e) {
+			System.out.println("StringIndexOutOfBoundsException");
+		}
+				
+
+	}
+
+}
+
+OUTPUT:
+
+StringIndexOutOfBoundsException
+
+CODE:
+
+package org.exceptionconcept;
+
+public class Exception {
+
+	public static void main(String[] args) {
+		//create an array dynamically
+	
+		try {
+			int array[]=new int[5];//created an array of size 5
+			array[4]=10;
+			System.out.println(array[4]);
+			System.out.println(array[15]);//exception
+			System.out.println(array[3]);
+			System.out.println(array[2]);
+			System.out.println(array[1]);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("Array index out of bound exception.");
+		}
+
+	}
+
+}
+
+OUTPUT:
+
+6.CODE:
+
+public class AuthenticationException extends Exception {
+    public AuthenticationException(String message) {
+        super(message);
+    }
+}
+
+public class WebsiteLogicSystem {
+    private static final String CORRECT_PASSWORD = "password123";
+
+    public static void main(String[] args) {
+        try {
+            String userInputPassword = "incorrectpassword";
+
+            if (!userInputPassword.equals(CORRECT_PASSWORD)) {
+                throw new AuthenticationException("Incorrect password. Please try again.");
+            }
+
+            System.out.println("Login successful. Welcome to the website!");
+        } catch (AuthenticationException e) {
+
+            System.err.println("Authentication Error: " + e.getMessage());
+        }
+    }
+}
+
+7.CODE:
+
+package org.userdefinedexception;
+
+public class InvalidAgeException extends Exception {
+    public InvalidAgeException(String message) {
+    	super(message);
+    }
+}
+
+
+package org.userdefinedexception;
+
+public class Main {
+
+	public static void main(String[] args) {
+		try {
+			Voter voter1=new Voter("Ramesh",15);//exception message
+			System.out.println("Voter Name "+voter1.getName());
+			System.out.println("Voter Age "+voter1.getAge());
+
+
+		} catch (InvalidAgeException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+}
+
+
+package org.userdefinedexception;
+
+public class Voter {
+	//create 2 data member 
+	private String name;
+	private int age;
+	
+	//constructor 
+	public Voter(String name, int age) throws InvalidAgeException {
+//		15<18
+		if(age<18) {
+			throw new InvalidAgeException("Voter must be 18 and above to vote a parties...");
+		}
+		this.name=name;
+		this.age=age;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public int getAge() {
+		return age;
+	}
+	
+
+}
+
+OUTPUT:
+
+Invalidageexception
+
+8.CODE:
+package org.exceptionconcept;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+//FileNotFound Exception
+public class Exception4 {
+
+	public static void main(String[] args) {
+		
+		//create a file that doesn't exist 
+		
+		try {
+			File file=new File("D:\\JavaConcept\\Oops\\src\\org\\exceptionconcept\\test.txt");
+			FileReader fr=new FileReader(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("The file  doesn't exist in a directory..");
+		}
+
+	}
+
+}
+
+OUTPUT:
+
+The file  doesn't exist in a directory..
+
+
+
+
+
